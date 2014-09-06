@@ -33,46 +33,38 @@ def parse(raw_file, delimeter):
 	return parsed_data
 
 def visualize_days():
-	"""Visualize data by day of the week"""
-	
-	# Grab our parsed data that we parsed earlier
-	data_file = parse(MY_FILE, ",")
+    """Visualize data by day of week"""
+    data_file = parse(MY_FILE, ",")
+    # Returns a dict where it sums the total values for each key.
+    # In this case, the keys are the DaysOfWeek, and the values are
+    # a count of incidents.
+    counter = Counter(item["DayOfWeek"] for item in data_file)
 
-	# Make a new variable, 'counter', from iterating through each
-	# line of data in the parsed data, and count how many incidents
-	# happen on each day of the week
+    # Separate out the counter to order it correctly when plotting.
+    data_list = [
+                  counter["Monday"],
+                  counter["Tuesday"],
+                  counter["Wednesday"],
+                  counter["Thursday"],
+                  counter["Friday"],
+                  counter["Saturday"],
+                  counter["Sunday"]
+                ]
+    day_tuple = tuple(["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"])
 
-	# Iterate every dictionary value of every dictionary key
-	# set to "DayOfWeek" for every line item in data_file
-	counter = Counter(item["DayOfWeek"] for item in data_file
+    # Assign the data to a plot
+    plt.plot(data_list)
 
-	# Seperate out the counter to reder it correctly when plotting.
-	data_list = [
-			counter["Monday"],
-			counter["Tuesday"],
-			counter["Wednesday"],
-			counter["Thursday"],
-			counter["Friday"],
-			counter["Saturday"],
-			counter["Sunday"]
-		    ]
-	day_tuple = tuple(["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"])
+    # Assign labels to the plot from day_list
+    plt.xticks(range(len(day_tuple)), day_tuple)
 
+    # Save the graph!
+    plt.savefig("Days.png")
 
-	# Assign the data to a plot
-	plt.plot(data_list)
-	
-	# Assign labels to the plot
-	plt.xticks(range(len(day_tuple)), day_tuple)
-
-	# Save the plot!
-	plt.savefig("Days.png")
-
-	# Close figure
-	plt.clf()	
+    # Close figure
+    plt.clf()	
 
 def main():
-
 	visualize_days()
 
 
