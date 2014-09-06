@@ -1,4 +1,4 @@
-# Parse
+# Graph
 
 from collections import Counter
 
@@ -32,13 +32,49 @@ def parse(raw_file, delimeter):
 
 	return parsed_data
 
+def visualize_days():
+	"""Visualize data by day of the week"""
+	
+	# Grab our parsed data that we parsed earlier
+	data_file = parse(MY_FILE, ",")
+
+	# Make a new variable, 'counter', from iterating through each
+	# line of data in the parsed data, and count how many incidents
+	# happen on each day of the week
+
+	# Iterate every dictionary value of every dictionary key
+	# set to "DayOfWeek" for every line item in data_file
+	counter = Counter(item["DayOfWeek"] for item in data_file
+
+	# Seperate out the counter to reder it correctly when plotting.
+	data_list = [
+			counter["Monday"],
+			counter["Tuesday"],
+			counter["Wednesday"],
+			counter["Thursday"],
+			counter["Friday"],
+			counter["Saturday"],
+			counter["Sunday"]
+		    ]
+	day_tuple = tuple(["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"])
+
+
+	# Assign the data to a plot
+	plt.plot(data_list)
+	
+	# Assign labels to the plot
+	plt.xticks(range(len(day_tuple)), day_tuple)
+
+	# Save the plot!
+	plt.savefig("Days.png")
+
+	# Close figure
+	plt.clf()	
+
 def main():
 
-	# Call parse function with the needed parameters
-	new_data = parse(MY_FILE, ",")
+	visualize_days()
 
-	# Print data
-	print new_data
 
 # Boilerplate code
 if __name__ == "__main__":
